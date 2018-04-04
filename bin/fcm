@@ -1,0 +1,80 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var commander = require('commander');
+var request = require("request");
+
+commander
+    .version('1.0.0', '-v, --version ')
+    .usage('fcm <user> -t <title> -b <body> -i <icon> -c <click_action>')
+    .description('send a post to the firebase API for notifications')
+    .option("-u, --url <url>", "specifies the URL that processes the notification")
+	.option("-k, --key <key>", "specifies the KEY of URL that processes the notification")
+    .option("-t, --title <title>", "specifies the parameter title of the notification")
+    .option("-b, --body <body>", "specifies the parameter body of the notification")
+    .option("-i, --icon <icon>", "specifies the parameter icon of the notification")
+    .option("-c, --click_action <click_action>", "specifies the parameter click_action of the notification")
+
+commander
+    .command('send <user>')
+    .description('send a notification to a specific customer')
+    .option("-u, --url <url>", "specifies the URL that processes the notification")
+	.option("-k, --key <key>", "specifies the KEY of URL that processes the notification")
+    .option("-t, --title <title>", "specifies the parameter title of the notification")
+    .option("-b, --body <body>", "specifies the parameter body of the notification")
+    .option("-i, --icon <icon>", "specifies the parameter icon of the notification")
+    .option("-c, --click_action <click_action>", "specifies the parameter click_action of the notification")
+    .action(function(user, options) {
+        options = options.parent;
+        if (typeof(userl) === "undefined") {
+            console.error("the parameter <user> is not defined");
+            process.exit(1);
+        } else if (typeof(options.url) === "undefined") {
+            console.error("the parameter -u, --url is not defined");
+            process.exit(1);
+        } else if (typeof(options.title) === "undefined") {
+            console.error("the parameter -b, --title is not defined");
+            process.exit(1);
+        } else if (typeof(options.body) === "undefined") {
+            console.error("the parameter -b, --body is not defined");
+            process.exit(1);
+        } else if (typeof(options.icon) === "undefined") {
+            console.error("the parameter -i, --icon is not defined");
+            process.exit(1);
+        } else {
+            var options = {
+                method: 'POST',
+                url: options.url,
+                headers: {
+                    'Content-Type': 'application/json',
+					'key':options.key
+                },
+                body: {
+					to: user,
+                    title: options.title,
+                    body: options.body,
+                    icon: options.icon,
+                    click_action: options.click_action
+                },
+                insecure: true,
+                json: true
+            };
+            request(options, function(error, response, body) {
+                if (error) {
+					console.error(error);
+				}
+                console.log(body);
+            });
+        }
+    }).on('--help', function() {
+        console.log('\n  Examples: \n');
+        console.log("    fcm send de20eecb-fd22-4d0b-b5f9-45a7379bd55d -u 'URL process notificacion' -t 'title of the notification' -b 'body of the notification' -i 'URL icono'");
+		console.log("    fcm send de20eecb-fd22-4d0b-b5f9-45a7379bd55d -u 'URL process notificacion' -k '4d0b-b5f9' -t 'title of the notification' -b 'body of the notification' -i 'URL icono'");
+        console.log("    fcm send de20eecb-fd22-4d0b-b5f9-45a7379bd55d -u 'URL process notificacion' -t 'title of the notification' -b 'body of the notification' -i 'URL icono' -c 'URL action'");
+        console.log();
+    });
+
+commander.parse(process.argv);
+
+if (!commander.args.length) commander.help();
