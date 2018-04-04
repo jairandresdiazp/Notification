@@ -19,13 +19,15 @@ fcm fcm <user> -t <title> -b <body> -i <icon> -c <click_action>
 
 # Commands
 
-## send [options] <user>              send a notification to a specific customer
+## send
 
-## Usage
+send a notification to a specific customer
+
+### Usage
 
 send [options] <user>
 
-## Options
+### Options
 
 - -v, --version                      output the version number
 - -u, --url <url>                    specifies the URL that processes the notification
@@ -36,7 +38,7 @@ send [options] <user>
 - -c, --click_action <click_action>  specifies the parameter click_action of the notification
 - -h, --help                         output usage information
 
-## Examples:
+### Examples:
 
 ```shell
 fcm send de20eecb-fd22-4d0b-b5f9-45a7379bd55d -u 'URL process notificacion' -t 'title of the notification' -b 'body of the notification' -i 'URL icono'
