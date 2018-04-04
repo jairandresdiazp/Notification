@@ -1,0 +1,22 @@
+{
+  "name": "notification",
+  "version": "1.0.0",
+  "description": "send notification firebase for shell",
+  "main": "bin/fcm",
+  "repository": {
+    "private": true
+  },
+  "scripts": {
+    "test": "node bin/fcm"
+  },
+  "keywords": [
+    "firebase",
+    "notification"
+  ],
+  "author": "tranfiriendo",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.15.1",
+    "request": "^2.85.0"
+  }
+}
